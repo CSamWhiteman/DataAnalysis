@@ -31,3 +31,25 @@ summary(EstGenerationByCommishYear)
 model3 = lm(estimated_generation_gwh ~ fuel1 + commissioning_year, 
             data = globalPower)
 summary(model3)
+
+model4 = lm(estimated_generation_gwh ~ fuel1 + commissioning_year + capacity_mw, 
+            data = globalPower)
+summary(model4)
+
+# Gather USA per capita power production
+USAPower <- globalPower[globalPower$country=='USA',][,23]
+USAPower <- USAPower[complete.cases(USAPower)]
+totalUSAPower <- sum(USAPower)
+USAPop <- 325700000
+USAPowerPerCap <- totalUSAPower/USAPop
+USAPowerPerCap
+
+
+# Gather CHN per capita power production
+CHNPower <- globalPower[globalPower$country=='CHN',][,23]
+CHNPower <- CHNPower[complete.cases(CHNPower)]
+totalCHNPower <- sum(CHNPower)
+CHNPop <- 1386000000
+CHNPowerPerCap <- totalCHNPower/CHNPop
+CHNPowerPerCap
+
