@@ -12,27 +12,21 @@ head(globalPowerClean)
 #
 #Additionally, solar and wind energy sources do not appear to have a strong future.
 #-----------------------------------------------------------------------------------#
-model1 = lm(estimated_generation_gwh ~ fuel1, data = globalPower)
-summary(model1) #intercept = BIOMASS
+ByFuel = lm(estimated_generation_gwh ~ fuel1, data = globalPower)
+summary(ByFuel) #intercept = BIOMASS
 
 
 #-----------------------------------------------------------------------------------#
-#Is there a relationship between year of commissioning and future generation?
-#Answer: No relationship, p > .2
+# Is there a relationship between year of commissioning and future generation?
+# Answer: No relationship, p > .2
 #-----------------------------------------------------------------------------------#
 
 EstGenerationByCommishYear = lm(estimated_generation_gwh ~ commissioning_year, data = globalPowerClean)
 summary(EstGenerationByCommishYear)
-
+ 
 #-----------------------------------------------------------------------------------#
-#The best model is made from combining the two factors into one regression.
+# Scatterplot and line of best fit of CAPACITY explanatory variable
 #-----------------------------------------------------------------------------------#
-
-
-
-model4 = lm(estimated_generation_gwh ~ fuel1 + commissioning_year + capacity_mw, 
-            data = globalPower)
-summary(model4)
 
 # Plot the points
 plotmodel = lm(estimated_generation_gwh ~ capacity_mw, 
@@ -46,6 +40,21 @@ a = plotmodel$coefficients[2]
 x = range(globalPower$capacity_mw)
 y = b + a*x
 lines(x,y)
+
+#-----------------------------------------------------------------------------------#
+#The best model is made from combining all three of the factors.
+#-----------------------------------------------------------------------------------#
+
+
+
+EstPowerReg = lm(estimated_generation_gwh ~ fuel1 + commissioning_year + capacity_mw, 
+            data = globalPower)
+summary(EstPowerReg)
+
+
+#-----------------------------------------------------------------------------------#
+# Per Capita Energy Production
+#-----------------------------------------------------------------------------------#
 
 
 # Gather USA per capita power production
