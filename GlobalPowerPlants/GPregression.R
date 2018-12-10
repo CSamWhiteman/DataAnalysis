@@ -28,13 +28,25 @@ summary(EstGenerationByCommishYear)
 #The best model is made from combining the two factors into one regression.
 #-----------------------------------------------------------------------------------#
 
-model3 = lm(estimated_generation_gwh ~ fuel1 + commissioning_year, 
-            data = globalPower)
-summary(model3)
+
 
 model4 = lm(estimated_generation_gwh ~ fuel1 + commissioning_year + capacity_mw, 
             data = globalPower)
 summary(model4)
+
+# Plot the points
+plotmodel = lm(estimated_generation_gwh ~ capacity_mw, 
+            data = globalPower)
+plot(globalPower$capacity_mw,globalPower$estimated_generation_gwh, xlab = 'Capacity (MW)'
+     , ylab = 'Estimated Generation (gWh)', main = 'Est. Generation by Capacity')
+
+# Create a line of best fit
+b = plotmodel$coefficients[1]
+a = plotmodel$coefficients[2]
+x = range(globalPower$capacity_mw)
+y = b + a*x
+lines(x,y)
+
 
 # Gather USA per capita power production
 USAPower <- globalPower[globalPower$country=='USA',][,23]
